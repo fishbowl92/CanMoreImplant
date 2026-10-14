@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!-- 팔에는 주먹 무기 효과가 있어 단순 효율 자동 비교를 하지 않습니다.
+       바닐라 팔 계열만 별도로 확인한 관계를 제공합니다.
+       이 부품들의 기능을 변경하는 모드가 있다면 아래 규칙을 패치하거나 설정에서 명시 규칙을 끄십시오. -->
+  <CanMoreImplant.ImplantComparisonDef>
+    <defName>CMI_CoreProstheticToBionicArm</defName>
+    <lower>SimpleProstheticArm</lower><higher>BionicArm</higher><bodyPart>Shoulder</bodyPart>
+  </CanMoreImplant.ImplantComparisonDef>
+  <CanMoreImplant.ImplantComparisonDef>
+    <defName>CMI_CoreBionicToArchotechArm</defName>
+    <lower>BionicArm</lower><higher>ArchotechArm</higher><bodyPart>Shoulder</bodyPart>
+  </CanMoreImplant.ImplantComparisonDef>
+</Defs>

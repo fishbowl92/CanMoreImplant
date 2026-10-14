@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+  <name>Can More Implant</name>
+  <author>CanMoreImplant</author>
+  <packageId>canmoreimplant.healthtab</packageId>
+  <supportedVersions><li>1.7</li></supportedVersions>
+  <modDependencies>
+    <li><packageId>brrainz.harmony</packageId><displayName>Harmony</displayName><steamWorkshopUrl>steam://url/CommunityFilePage/2009463077</steamWorkshopUrl></li>
+  </modDependencies>
+  <loadAfter><li>brrainz.harmony</li></loadAfter>
+  <description>A compact Implants tab beside Overview and Operations in the vanilla Health window.
+
+Installed implants retain their health-entry colors. Potential implants are gray and grouped by body part. Known inferior alternatives can be hidden; specialized and unclassified implants remain visible. No stock or research requirement hides a discovered candidate.
+
+Supports standard surgery definitions from other mods. Custom installation systems may require an adapter. This is a read-only browser: use the vanilla Operations tab to order surgery.
+
+RimWorld 1.7. Requires Harmony. English and Korean included.
+
+건강 창의 개요·수술 옆에 임플란트 탭을 추가합니다. 장착품은 건강 항목 색상, 미장착 후보는 회색으로 표시합니다. 명확한 하위품만 숨기며 하위 후보 표시 설정으로 복원할 수 있습니다. 실제 수술은 기존 수술 탭을 이용합니다.
+
+Version 0.1.0 — initial release candidate. See Docs for compatibility and test limitations.</description>
+</ModMetaData>

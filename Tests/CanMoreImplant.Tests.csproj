@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType><TargetFramework>net10.0</TargetFramework>
+    <AssemblyName>CanMoreImplant.Tests</AssemblyName>
+    <ImplicitUsings>enable</ImplicitUsings><Nullable>disable</Nullable>
+    <GamePath Condition="'$(GamePath)' == ''">E:\SteamLibrary\steamapps\common\RimWorld</GamePath>
+    <HarmonyPath Condition="'$(HarmonyPath)' == ''">E:\SteamLibrary\steamapps\workshop\content\294100\2009463077\1.7\Assemblies\0Harmony.dll</HarmonyPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../Source/CanMoreImplant.csproj" />
+    <Reference Include="Assembly-CSharp"><HintPath>$(GamePath)/Assembly-CSharp.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityStubs"><HintPath>$(GamePath)/UnityStubs.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Waylith.UnityCompat"><HintPath>$(GamePath)/Waylith.UnityCompat.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="0Harmony"><HintPath>$(HarmonyPath)</HintPath><Private>false</Private></Reference>
+  </ItemGroup>
+</Project>

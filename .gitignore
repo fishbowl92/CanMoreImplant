@@ -1,0 +1,24 @@
+# Local IDE and build intermediates
+.vs/
+.idea/
+**/bin/
+**/obj/
+*.user
+*.suo
+*.pdb
+*.deps.json
+*.runtimeconfig.json
+
+# Keep only this mod's distributable assembly; never commit game/dependency DLLs.
+*.dll
+!1.7/Assemblies/CanMoreImplant.dll
+
+# Local configuration, credentials and logs
+.env
+.env.*
+*.log
+About/PublishedFileId.txt
+
+# Keep the reviewed preview package only.
+Dist/*
+!Dist/CanMoreImplant-0.1.0.zip

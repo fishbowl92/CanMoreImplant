@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <CMI.Tab>Implants</CMI.Tab>
+  <CMI.HideInferior>Hide known inferior candidates</CMI.HideInferior>
+  <CMI.ExplicitRules>Use explicit compatibility hierarchy rules</CMI.ExplicitRules>
+  <CMI.SettingsHelp>Gray entries are candidates, not a guarantee that surgery can be performed now. Unknown special effects are not ranked automatically. Disable explicit rules if another mod changes the abilities of a ranked implant. This mod does not schedule operations.</CMI.SettingsHelp>
+  <CMI.ShowInferior>Show inferior candidates ({0})</CMI.ShowInferior>
+  <CMI.Legend>Installed: normal health-entry color. Uninstalled: gray. Only candidates inferior to an implant actually installed on the same body part are hidden.</CMI.Legend>
+  <CMI.Skipped>Could not inspect {0} surgeries. See the game log.</CMI.Skipped>
+  <CMI.Empty>No installed implants or discoverable implant surgeries for this pawn.</CMI.Empty>
+  <CMI.Candidate>Uninstalled candidate. Not all special effects can be compared.</CMI.Candidate>
+  <CMI.InferiorTip>Classified as inferior to an implant installed on this body part.</CMI.InferiorTip>
+  <CMI.Dead>This pawn is dead; ordinary installation is unavailable.</CMI.Dead>
+  <CMI.ResearchLocked>The surgery is not unlocked or is currently disabled.</CMI.ResearchLocked>
+  <CMI.Blocked>Current restriction: {0}</CMI.Blocked>
+  <CMI.SpecialCondition>Additional conditions are not met.</CMI.SpecialCondition>
+  <CMI.BodyCompatible>The surgery's current pawn/body conditions are met.</CMI.BodyCompatible>
+  <CMI.Missing>Potentially missing materials: {0}</CMI.Missing>
+  <CMI.Skills>Required skills: {0}</CMI.Skills>
+  <CMI.ConditionUnknown>Could not evaluate this mod's surgery conditions.</CMI.ConditionUnknown>
+  <CMI.NoGuarantee>Use Operations to schedule surgery. Availability also depends on materials, doctors, permissions and other mod-specific checks.</CMI.NoGuarantee>
+</LanguageData>
