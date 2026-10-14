@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
   <CMI.Tab>임플란트</CMI.Tab>
+  <CMI.PartColumn>부위 · 현재 효율</CMI.PartColumn>
+  <CMI.ImplantColumn>임플란트</CMI.ImplantColumn>
+  <CMI.EffectColumn>주요 효과</CMI.EffectColumn>
+  <CMI.CurrentEfficiency>현재 {0}</CMI.CurrentEfficiency>
+  <CMI.MoreEffects>외 {0}개</CMI.MoreEffects>
+  <CMI.SpecialEffect>특수 효과</CMI.SpecialEffect>
+  <CMI.ConditionalEffect>조건부 효과</CMI.ConditionalEffect>
+  <CMI.EffectBasis>왼쪽은 해당 부위의 현재 실제 효율입니다. 오른쪽의 교체품 효율은 정의된 기본값이며 정착민 전체 능력이 아닙니다. 보조 효과는 장착품의 현재 단계 또는 후보의 초기 단계 기준입니다. 조건부·사용자 정의 효과 전체는 설명과 정보 카드에서 확인하십시오.</CMI.EffectBasis>
   <CMI.HideInferior>확실한 하위 후보 숨김</CMI.HideInferior>
   <CMI.ExplicitRules>명시된 모드 호환 상하위 규칙 사용</CMI.ExplicitRules>
-  <CMI.SettingsHelp>회색 항목은 후보이며 즉시 수술할 수 있다는 보장은 아닙니다. 알 수 없는 특수 효과는 자동 비교하지 않습니다. 다른 모드가 비교 대상 부품의 기능을 바꾸면 명시 규칙을 끄거나 호환 패치를 사용하십시오. 이 모드는 수술을 예약하지 않습니다.</CMI.SettingsHelp>
+  <CMI.SettingsHelp>회색은 미장착 후보입니다. 바닐라 교체품과 같은 계열의 교체품은 현재 부위 효율보다 낮으면 숨깁니다. 다른 모드 계열은 유지합니다. 계열 내 특수 기능의 가치는 수치로 판정하지 않으므로 하위 후보 표시 또는 별도 계열 설정을 사용하십시오. 구울·메카니터 등 대상 조건에 맞지 않는 수술은 표시하지 않습니다. 수술 예약 기능은 없습니다.</CMI.SettingsHelp>
   <CMI.ShowInferior>하위 후보 표시 ({0})</CMI.ShowInferior>
-  <CMI.Legend>장착품: 일반 건강 항목 색상. 미장착 후보: 회색. 같은 신체 부위에 실제 장착한 부품보다 확실히 하위인 후보만 숨깁니다.</CMI.Legend>
+  <CMI.Legend>장착품: 건강 항목 색상. 미장착: 회색. 자연 부위를 포함한 현재 부위 효율과 비교합니다. 다른 모드 계열은 별도로 유지합니다. 하위 후보 표시는 효율/상하위 필터만 해제하며 대상 제한은 해제하지 않습니다.</CMI.Legend>
+  <CMI.VanillaGroup>바닐라 · 공식 확장팩</CMI.VanillaGroup>
+  <CMI.UnknownGroup>출처 미상 · 개별 비교</CMI.UnknownGroup>
   <CMI.Skipped>수술 {0}개를 확인하지 못했습니다. 게임 로그를 확인하십시오.</CMI.Skipped>
   <CMI.Empty>이 대상에게 장착된 임플란트나 발견 가능한 이식 수술이 없습니다.</CMI.Empty>
   <CMI.Candidate>미장착 후보입니다. 모든 특수 기능의 우열을 비교할 수 있는 것은 아닙니다.</CMI.Candidate>
-  <CMI.InferiorTip>이 부위의 장착품보다 하위인 후보로 분류되었습니다.</CMI.InferiorTip>
+  <CMI.InferiorTip>현재 부위 효율보다 낮거나 같은 계열의 장착품보다 하위인 후보로 분류되었습니다. 특수 기능의 가치를 뜻하지는 않습니다.</CMI.InferiorTip>
   <CMI.Dead>사망한 대상이므로 일반적인 이식 수술은 불가능합니다.</CMI.Dead>
   <CMI.ResearchLocked>수술이 해금되지 않았거나 현재 비활성화되어 있습니다.</CMI.ResearchLocked>
   <CMI.Blocked>현재 제한: {0}</CMI.Blocked>

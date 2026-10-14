@@ -28,10 +28,35 @@ public sealed class ImplantRecipeExtension : DefModExtension
     public HediffDef implant;
     public bool exclude;
     public bool allowAutomaticComparison;
+    public bool requiresMechanitor;
 }
 
 internal static class ImplantComparison
 {
+    /// <summary>
+    /// 수치가 있는 교체 부품은 현재 실제 부위 효율과 비교합니다. 전신 조작 능력이 아닌 부위 효율입니다.
+    /// 다른 모드 계열은 특수 기능을 보존하되, 바닐라 후보는 어느 계열 장착품과도 효율을 비교합니다.
+    /// </summary>
+    internal static bool ShouldHide(HediffDef candidate, HediffDef replacement, BodyPartRecord part,
+        float currentEfficiency, bool simpleWorker)
+    {
+        if (candidate == null || candidate == replacement || part == null) return false;
+        string candidateGroup = ImplantGroups.Key(candidate);
+        bool comparable = replacement == null || candidateGroup == ImplantGroups.Vanilla ||
+                          candidateGroup == ImplantGroups.Key(replacement);
+        if (!comparable) return false;
+        if (candidate.addedPartProps != null &&
+            typeof(Hediff_AddedPart).IsAssignableFrom(candidate.hediffClass))
+        {
+            float efficiency = candidate.addedPartProps.partEfficiency;
+            // 비정상 수치의 사용자 정의 부품을 임의로 숨기지 않습니다. 같은 효율은 후보로 남깁니다.
+            return float.IsFinite(efficiency) && float.IsFinite(currentEfficiency) &&
+                   efficiency + 0.0001f < currentEfficiency;
+        }
+        return replacement != null && candidateGroup == ImplantGroups.Key(replacement) &&
+               IsInferior(candidate, replacement, part, simpleWorker);
+    }
+
     private static readonly Dictionary<(HediffDef, HediffDef), bool> simpleCache = new();
     private static readonly HashSet<string> cosmeticFields = new()
     {

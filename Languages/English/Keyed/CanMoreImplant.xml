@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
   <CMI.Tab>Implants</CMI.Tab>
+  <CMI.PartColumn>Part / current efficiency</CMI.PartColumn>
+  <CMI.ImplantColumn>Implant</CMI.ImplantColumn>
+  <CMI.EffectColumn>Main effect</CMI.EffectColumn>
+  <CMI.CurrentEfficiency>Current {0}</CMI.CurrentEfficiency>
+  <CMI.MoreEffects>{0} more</CMI.MoreEffects>
+  <CMI.SpecialEffect>Special effect</CMI.SpecialEffect>
+  <CMI.ConditionalEffect>Conditional effect</CMI.ConditionalEffect>
+  <CMI.EffectBasis>The left column is the part's current efficiency. Replacement efficiency on the right is its defined base value, not the pawn's overall capacity. Other effects use the installed current stage or the candidate's initial stage. Consult the description and info card for conditional and custom effects.</CMI.EffectBasis>
   <CMI.HideInferior>Hide known inferior candidates</CMI.HideInferior>
   <CMI.ExplicitRules>Use explicit compatibility hierarchy rules</CMI.ExplicitRules>
-  <CMI.SettingsHelp>Gray entries are candidates, not a guarantee that surgery can be performed now. Unknown special effects are not ranked automatically. Disable explicit rules if another mod changes the abilities of a ranked implant. This mod does not schedule operations.</CMI.SettingsHelp>
+  <CMI.SettingsHelp>Gray entries are uninstalled candidates. Vanilla and same-family replacements are hidden below the current part efficiency. Other mod families remain visible. Special abilities are not valued by this numeric filter: reveal inferior candidates or assign separate families. Ghoul, mechanitor and other target restrictions are enforced. This mod does not schedule operations.</CMI.SettingsHelp>
   <CMI.ShowInferior>Show inferior candidates ({0})</CMI.ShowInferior>
-  <CMI.Legend>Installed: normal health-entry color. Uninstalled: gray. Only candidates inferior to an implant actually installed on the same body part are hidden.</CMI.Legend>
+  <CMI.Legend>Installed: health-entry color. Uninstalled: gray. Compare against current part efficiency, including natural parts. Other mod families remain separate. Show inferior candidates bypasses comparison only, not target restrictions.</CMI.Legend>
+  <CMI.VanillaGroup>Vanilla / official expansions</CMI.VanillaGroup>
+  <CMI.UnknownGroup>Unknown source / separate comparison</CMI.UnknownGroup>
   <CMI.Skipped>Could not inspect {0} surgeries. See the game log.</CMI.Skipped>
   <CMI.Empty>No installed implants or discoverable implant surgeries for this pawn.</CMI.Empty>
   <CMI.Candidate>Uninstalled candidate. Not all special effects can be compared.</CMI.Candidate>
-  <CMI.InferiorTip>Classified as inferior to an implant installed on this body part.</CMI.InferiorTip>
+  <CMI.InferiorTip>Below current part efficiency or inferior to an installed same-family implant. This does not evaluate the value of special abilities.</CMI.InferiorTip>
   <CMI.Dead>This pawn is dead; ordinary installation is unavailable.</CMI.Dead>
   <CMI.ResearchLocked>The surgery is not unlocked or is currently disabled.</CMI.ResearchLocked>
   <CMI.Blocked>Current restriction: {0}</CMI.Blocked>

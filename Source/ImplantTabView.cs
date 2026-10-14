@@ -15,7 +15,7 @@ internal static class ImplantTabView
     private static Game lastGame;
     private static readonly Color candidateColor = new Color(0.56f, 0.56f, 0.56f);
 
-    /// <summary>기존 건강 창 내부에 부위/항목 두 열만 그립니다. 수술 예약 기능은 원래 수술 탭에 둡니다.</summary>
+    /// <summary>부위·현재 효율 / 임플란트 / 주요 효과의 세 열을 표시합니다. 수술 예약은 원래 탭에 둡니다.</summary>
     public static void Draw(Rect outer, Pawn pawn, bool allowOperations)
     {
         Color savedColor = GUI.color;
@@ -68,7 +68,7 @@ internal static class ImplantTabView
                 GUI.color = Color.white;
                 content.yMin += 30f;
             }
-            DrawRows(content, pawn, snapshot.Rows.Where(x => showLower || !x.Inferior).ToList());
+            DrawRows(content, pawn, snapshot.Rows.Where(x => showLower || !x.Inferior).ToList(), snapshot.PartEfficiencies);
         }
         finally
         {
@@ -79,7 +79,8 @@ internal static class ImplantTabView
         }
     }
 
-    private static void DrawRows(Rect viewport, Pawn pawn, List<ImplantRow> rows)
+    private static void DrawRows(Rect viewport, Pawn pawn, List<ImplantRow> rows,
+        IReadOnlyDictionary<BodyPartRecord, float> efficiencies)
     {
         if (rows.Count == 0)
         {
@@ -87,10 +88,22 @@ internal static class ImplantTabView
             return;
         }
         float width = viewport.width - 18f;
-        float partWidth = width * 0.36f;
-        float nameWidth = width - partWidth - 28f;
-        float[] heights = rows.Select(x => Mathf.Max(26f,
-            Mathf.Max(Text.CalcHeight(x.Label, nameWidth), Text.CalcHeight(PartLabel(x.Part), partWidth - 8f)) + 4f)).ToArray();
+        ColumnWidths(width, out float partWidth, out float nameWidth, out float effectWidth);
+        float effectX = partWidth + nameWidth;
+        string[] headings = { "CMI.PartColumn".Translate(), "CMI.ImplantColumn".Translate(), "CMI.EffectColumn".Translate() };
+        float headerHeight = Mathf.Max(Text.CalcHeight(headings[0], partWidth - 8f),
+            Mathf.Max(Text.CalcHeight(headings[1], nameWidth - 8f), Text.CalcHeight(headings[2], effectWidth - 8f))) + 8f;
+        GUI.color = Color.white;
+        Widgets.Label(new Rect(viewport.x + 4, viewport.y, partWidth - 8f, headerHeight), headings[0]);
+        Widgets.Label(new Rect(viewport.x + partWidth, viewport.y, nameWidth - 8f, headerHeight), headings[1]);
+        Widgets.Label(new Rect(viewport.x + effectX, viewport.y, effectWidth - 8f, headerHeight), headings[2]);
+        viewport.yMin += headerHeight;
+        string[] parts = rows.Select(x => PartWithEfficiency(x.Part, efficiencies)).ToArray();
+        string[] effects = rows.Select(x => x.Effects.Summary).ToArray();
+        float[] heights = rows.Select((x, i) => Mathf.Max(26f,
+            Mathf.Max(Text.CalcHeight(x.Label, nameWidth - 8f),
+                Mathf.Max(Text.CalcHeight(effects[i], effectWidth - 8f),
+                    i == 0 || x.Part != rows[i - 1].Part ? Text.CalcHeight(parts[i], partWidth - 8f) : 0f)) + 4f)).ToArray();
         float height = heights.Sum() + 8f * rows.Select(x => x.Part).Distinct().Count();
         Widgets.BeginScrollView(viewport, ref scroll, new Rect(0, 0, width, height));
         try
@@ -107,9 +120,10 @@ internal static class ImplantTabView
                 if ((index & 1) == 0) Widgets.DrawLightHighlight(whole);
                 Widgets.DrawHighlightIfMouseover(whole);
                 GUI.color = Color.white;
-                if (newPart) Widgets.Label(new Rect(4, y + 2f, partWidth - 8f, h), PartLabel(row.Part));
+                if (newPart) Widgets.Label(new Rect(4, y + 2f, partWidth - 8f, h), parts[index]);
                 GUI.color = row.Installed != null ? row.Installed.LabelColor : candidateColor;
-                Widgets.Label(new Rect(partWidth, y + 2f, nameWidth, h), row.Label);
+                Widgets.Label(new Rect(partWidth, y + 2f, nameWidth - 8f, h), row.Label);
+                Widgets.Label(new Rect(effectX, y + 2f, effectWidth - 8f, h), effects[index]);
                 GUI.color = Color.white;
                 if (row.Installed != null)
                     Widgets.InfoCardButton(new Rect(width - 24f, y, 24f, 24f), row.Installed);
@@ -126,11 +140,35 @@ internal static class ImplantTabView
 
     private static string PartLabel(BodyPartRecord part) => part == null ? "WholeBody".Translate().ToString() : part.LabelCap.ToString();
 
+    internal static void ColumnWidths(float width, out float part, out float implant, out float effect)
+    {
+        // 오른쪽 정보 버튼(28px)을 제외한 공간을 세 열에 배분합니다.
+        float usable = Mathf.Max(0f, width - 28f);
+        part = usable * 0.25f;
+        implant = usable * 0.40f;
+        effect = usable - part - implant;
+    }
+
+    internal static string PartWithEfficiency(BodyPartRecord part, IReadOnlyDictionary<BodyPartRecord, float> efficiencies)
+    {
+        if (part == null) return PartLabel(null);
+        string value = efficiencies.TryGetValue(part, out float efficiency) && float.IsFinite(efficiency)
+            ? efficiency.ToStringPercent() : "?";
+        return PartLabel(part) + "\n" + "CMI.CurrentEfficiency".Translate(value);
+    }
+
     private static string Tooltip(Pawn pawn, ImplantRow row)
     {
-        if (row.Installed != null) return row.Installed.GetTooltip(pawn, false);
         var text = new StringBuilder();
         text.AppendLine(row.Label + " — " + PartLabel(row.Part));
+        text.AppendLine(row.Effects.Details);
+        text.AppendLine("CMI.EffectBasis".Translate());
+        text.AppendLine();
+        if (row.Installed != null)
+        {
+            text.AppendLine(row.Installed.GetTooltip(pawn, false));
+            return text.ToString().TrimEnd();
+        }
         text.AppendLine("CMI.Candidate".Translate());
         if (row.Inferior) text.AppendLine("CMI.InferiorTip".Translate());
         text.AppendLine(row.Implant.description);
