@@ -1,0 +1,9 @@
+Adds an Implants tab to the Health panel.
+Compare installed implants, replacement candidates, and their main effects by body part.
+Use the Operations tab to schedule surgery.
+Requires RimWorld 1.7 and Harmony. English and Korean supported.
+
+건강 창에 임플란트 탭을 추가합니다.
+부위별로 장착된 임플란트와 교체 후보, 주요 효과를 비교할 수 있습니다.
+수술 예약은 기존 수술 탭을 이용해주세요.
+RimWorld 1.7과 Harmony가 필요합니다. 영어·한국어를 지원합니다.

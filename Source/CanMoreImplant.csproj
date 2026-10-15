@@ -3,7 +3,7 @@
     <TargetFramework>net10.0</TargetFramework>
     <AssemblyName>CanMoreImplant</AssemblyName>
     <RootNamespace>CanMoreImplant</RootNamespace>
-    <Version>0.3.0</Version>
+    <Version>0.3.1</Version>
     <Nullable>disable</Nullable>
     <ImplicitUsings>disable</ImplicitUsings>
     <Deterministic>true</Deterministic>
