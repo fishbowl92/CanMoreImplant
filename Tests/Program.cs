@@ -79,6 +79,7 @@ internal static class Program
         CheckGroupsAndEfficiency();
         CheckTargetEligibility();
         CheckEffectDisplay();
+        CheckCompactTooltip();
         Console.WriteLine("No game UI was launched. These are logic and installed-API checks only.");
     }
 
@@ -256,6 +257,46 @@ internal static class Program
         Check(!TargetEligibility.Allows(pawn, recipe, implant), "mod extension can require mechanitor");
         pawn.health.hediffSet.hediffs.Add(new Hediff { def = mechlink, pawn = pawn });
         Check(TargetEligibility.Allows(pawn, recipe, implant), "mechanitor satisfies explicit target restriction");
+    }
+
+    private static void CheckCompactTooltip()
+    {
+        foreach (var entry in new Dictionary<string, string>
+        {
+            ["ludeon.rimworld"] = "Core", ["ludeon.rimworld.royalty"] = "Royalty",
+            ["ludeon.rimworld.ideology"] = "Ideology", ["ludeon.rimworld.biotech"] = "Biotech",
+            ["ludeon.rimworld.anomaly"] = "Anomaly", ["ludeon.rimworld.odyssey"] = "Odyssey"
+        })
+        {
+            var source = FakeMod(entry.Key, true);
+            AccessTools.Field(typeof(ModContentPack), "nameInt").SetValue(source, "번역된 확장팩 이름");
+            Check(ImplantTooltip.EnglishSourceName(source) == entry.Value, "English source: " + entry.Value);
+        }
+        var mod = FakeMod("example.implants");
+        AccessTools.Field(typeof(ModContentPack), "nameInt").SetValue(mod, "Example Implants");
+        Check(ImplantTooltip.EnglishSourceName(mod) == "Example Implants", "English mod title retained");
+        AccessTools.Field(typeof(ModContentPack), "nameInt").SetValue(mod, "한국어 모드명");
+        Check(ImplantTooltip.EnglishSourceName(mod) == "example.implants", "localized mod title uses package identifier");
+        Check(ImplantTooltip.EnglishSourceName(null) == "Unknown", "missing source is not guessed");
+        var implant = Part("TestArm", 1.25f);
+        implant.description = "LONG_BACKGROUND_MUST_NOT_APPEAR";
+        implant.modContentPack = FakeMod("ludeon.rimworld.royalty", true);
+        var row = new ImplantRow { Implant = implant };
+        row.Recipes.Add(new RecipeDef { label = "LONG_SURGERY_MUST_NOT_APPEAR", modContentPack = mod });
+        string tooltip = ImplantTooltip.Build(row);
+        Check(tooltip.Split('\n').Length == 3 && tooltip.Contains("125%") && tooltip.EndsWith("[Royalty]"),
+            "candidate tooltip contains only name effect and original source");
+        Check(!tooltip.Contains("LONG_") && !tooltip.Contains("example.implants"), "background and surgery text omitted");
+        var installedRow = new ImplantRow { Implant = implant,
+            Installed = new Hediff_AddedPart { def = implant, pawn = new Pawn { def = new ThingDef { race = new RaceProperties() } } } };
+        string installedTip = ImplantTooltip.Build(installedRow);
+        Check(installedTip.Split('\n').Length == installedRow.Effects.Entries.Count + 2 &&
+            installedTip.EndsWith("[Royalty]") && !installedTip.Contains("LONG_"), "installed tooltip uses same compact format");
+        implant.modContentPack = null;
+        row.Recipes.Add(row.Recipes[0]);
+        Check(ImplantTooltip.Source(row) == "example.implants", "fallback recipe sources deduplicated");
+        row.Recipes.Clear();
+        Check(ImplantTooltip.Source(row) == "Unknown", "unmapped source remains unknown");
     }
 
     private static void CheckEffectDisplay()

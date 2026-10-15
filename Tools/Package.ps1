@@ -1,7 +1,7 @@
 param([string]$OutputFile)
 $ErrorActionPreference = 'Stop'
 $projectRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
-if (-not $OutputFile) { $OutputFile = Join-Path $projectRoot 'Dist\CanMoreImplant-0.3.1.zip' }
+if (-not $OutputFile) { $OutputFile = Join-Path $projectRoot 'Dist\CanMoreImplant-0.3.2.zip' }
 $OutputFile = [IO.Path]::GetFullPath($OutputFile)
 # 원본과 기존 배포본을 덮어쓰지 않습니다. 다시 만들 때는 다른 OutputFile 이름을 지정하십시오.
 if (Test-Path -LiteralPath $OutputFile) { throw "Output already exists: $OutputFile" }

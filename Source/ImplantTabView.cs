@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using RimWorld;
 using UnityEngine;
 using Verse;
@@ -68,7 +67,7 @@ internal static class ImplantTabView
                 GUI.color = Color.white;
                 content.yMin += 30f;
             }
-            DrawRows(content, pawn, snapshot.Rows.Where(x => showLower || !x.Inferior).ToList(), snapshot.PartEfficiencies);
+            DrawRows(content, snapshot.Rows.Where(x => showLower || !x.Inferior).ToList(), snapshot.PartEfficiencies);
         }
         finally
         {
@@ -79,7 +78,7 @@ internal static class ImplantTabView
         }
     }
 
-    private static void DrawRows(Rect viewport, Pawn pawn, List<ImplantRow> rows,
+    private static void DrawRows(Rect viewport, List<ImplantRow> rows,
         IReadOnlyDictionary<BodyPartRecord, float> efficiencies)
     {
         if (rows.Count == 0)
@@ -128,9 +127,9 @@ internal static class ImplantTabView
                 if (row.Installed != null)
                     Widgets.InfoCardButton(new Rect(width - 24f, y, 24f, 24f), row.Installed);
                 else Widgets.InfoCardButton(width - 24f, y, row.Implant);
-                // 설명은 실제로 마우스를 올릴 때만 계산해 재료 검색 비용을 줄입니다.
+                // 간단한 효과 목록과 출처만 표시합니다. 자세한 내용은 정보 버튼에 남겨 둡니다.
                 TooltipHandler.TipRegion(new Rect(0, y, width - 28f, h),
-                    new TipSignal(() => Tooltip(pawn, row), 196401 + index));
+                    new TipSignal(() => ImplantTooltip.Build(row), 196401 + index));
                 y += h;
                 previous = row.Part;
             }
@@ -155,51 +154,5 @@ internal static class ImplantTabView
         string value = efficiencies.TryGetValue(part, out float efficiency) && float.IsFinite(efficiency)
             ? efficiency.ToStringPercent() : "?";
         return PartLabel(part) + "\n" + "CMI.CurrentEfficiency".Translate(value);
-    }
-
-    private static string Tooltip(Pawn pawn, ImplantRow row)
-    {
-        var text = new StringBuilder();
-        text.AppendLine(row.Label + " — " + PartLabel(row.Part));
-        text.AppendLine(row.Effects.Details);
-        text.AppendLine("CMI.EffectBasis".Translate());
-        text.AppendLine();
-        if (row.Installed != null)
-        {
-            text.AppendLine(row.Installed.GetTooltip(pawn, false));
-            return text.ToString().TrimEnd();
-        }
-        text.AppendLine("CMI.Candidate".Translate());
-        if (row.Inferior) text.AppendLine("CMI.InferiorTip".Translate());
-        text.AppendLine(row.Implant.description);
-        text.AppendLine();
-        foreach (RecipeDef recipe in row.Recipes)
-        {
-            text.AppendLine(recipe.LabelCap + " [" + (recipe.modContentPack?.Name ?? "?") + "]");
-            try
-            {
-                AcceptanceReport report = recipe.Worker.AvailableReport(pawn, row.Part);
-                if (pawn.Dead) text.AppendLine("CMI.Dead".Translate());
-                else if (!recipe.AvailableNow) text.AppendLine("CMI.ResearchLocked".Translate());
-                else if (!report.Accepted || !recipe.AvailableOnNow(pawn, row.Part))
-                    text.AppendLine("CMI.Blocked".Translate(report.Reason ?? "CMI.SpecialCondition".Translate().ToString()));
-                else text.AppendLine("CMI.BodyCompatible".Translate());
-                if (pawn.MapHeld != null)
-                {
-                    var missing = recipe.PotentiallyMissingIngredients(null, pawn.MapHeld).ToList();
-                    if (missing.Count > 0)
-                        text.AppendLine("CMI.Missing".Translate(string.Join(", ", missing.Select(x => x.LabelCap))));
-                }
-                if (!recipe.skillRequirements.NullOrEmpty())
-                    text.AppendLine("CMI.Skills".Translate(string.Join(", ", recipe.skillRequirements.Select(x => x.skill.LabelCap + " " + x.minLevel))));
-            }
-            catch (Exception)
-            {
-                text.AppendLine("CMI.ConditionUnknown".Translate());
-            }
-            text.AppendLine();
-        }
-        text.AppendLine("CMI.NoGuarantee".Translate());
-        return text.ToString().TrimEnd();
     }
 }

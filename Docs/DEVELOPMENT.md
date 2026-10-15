@@ -197,3 +197,11 @@ PowerShell에서 모드 폴더를 연 뒤 실행합니다.
 - Docs/WORKSHOP_DESCRIPTION.txt: 창작마당에 복사할 소개문 생성. About의 설명과 동일.
 - Source/CanMoreImplant.csproj: 버전만 0.3.1로 변경. Tools/Package.ps1: 기본 배포 파일명 갱신.
 - 새로 만들거나 삭제한 C# 함수·매개변수·변수는 없습니다. 기존 버전 압축본은 삭제하지 않습니다.
+
+## 0.3.2 변경 개요 — 2026-10-15
+
+- 추가 파일 `Source/ImplantTooltip.cs`: `Build(row)`는 이름·효과·출처만 결합합니다. `Source(row)`는 건강 정의의 출처를 우선하고, 없으면 수술 정의의 출처를 중복 없이 사용합니다. `EnglishSourceName(source)`는 공식 확장팩의 패키지 식별자를 영어 이름에 대응시키고 외부 모드의 영문 이름을 유지합니다. 비영문 이름뿐이면 패키지 식별자로 대체합니다.
+- 삭제 함수 `ImplantTabView.Tooltip(pawn, row)`: 장문의 배경·계산 안내·수술 조건·재료·기술 정보를 붙이는 코드를 제거했습니다. 이 함수의 지역 변수 `text`, `report`, `missing`도 함께 제거했습니다.
+- `ImplantTabView.DrawRows`의 사용하지 않는 `pawn` 매개변수와 `using System.Text`를 제거했습니다. 마우스 설명은 `ImplantTooltip.Build(row)`로 연결하며 원래 정보 버튼은 유지합니다.
+- `Tests/Program.cs`의 `CheckCompactTooltip()` 추가: 공식 확장팩 6종, 외부 영문명/번역명, 출처 우선순위·중복 제거, 장착품·후보의 짧은 설명 검증.
+- 필터·수술 가능 대상 판정·효과 계산은 변경하지 않았습니다. 기존 번역 키는 호환성을 위해 남겨두되 제거된 문구는 마우스 설명에서 호출하지 않습니다.
