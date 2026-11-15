@@ -19,10 +19,5 @@
 *.log
 About/PublishedFileId.txt
 
-# Keep the reviewed preview package only.
-Dist/*
-!Dist/CanMoreImplant-0.1.0.zip
-!Dist/CanMoreImplant-0.2.0.zip
-!Dist/CanMoreImplant-0.3.0.zip
-!Dist/CanMoreImplant-0.3.1.zip
-!Dist/CanMoreImplant-0.3.2.zip
+# Packaged zips are attached to GitHub Releases, not committed.
+Dist/

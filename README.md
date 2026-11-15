@@ -12,7 +12,7 @@ RimWorld 1.7과 Harmony가 필요합니다. 영어·한국어를 지원합니다
 
 ![Can More Implant in-game screenshot](About/Preview.png)
 
-[Download 0.3.2 / 다운로드](Dist/CanMoreImplant-0.3.2.zip)
+[Download 0.3.2 / 다운로드](https://github.com/fishbowl92/CanMoreImplant/releases/latest)
 
 Development preview. Compatibility testing is ongoing.
 개발 중인 버전입니다. 모드 조합별 호환성 검증은 진행 중입니다.
